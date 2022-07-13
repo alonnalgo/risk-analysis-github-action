@@ -1,8 +1,8 @@
 {
-  "name": "example-github-action",
+  "name": "risk-analysis-github-action",
   "version": "1.0.0",
   "private": true,
-  "description": "Probot & GitHub Action example",
+  "description": "Risk Analysis GitHub Action",
   "scripts": {
     "test": "node test/app.test.js",
     "build": "ncc build index.js -o dist"
