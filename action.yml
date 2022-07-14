@@ -1,5 +1,5 @@
-name: Probot Example
-description: "Example Action built with Probot"
+name: Github Action Test Risk Analysis
+description: "Example Action built with Probot Github Action Test Risk Analysis"
 branding:
   icon: "gift"
   color: orange
