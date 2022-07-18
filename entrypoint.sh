@@ -1,31 +1,40 @@
 #!/bin/sh
 set -e
 
-tmp_stdout=stdout.txt
-tmp_stderr=stderr.txt
+# create terraform environment
+if [[ "$TF_VERSION" == "latest"  || "$TF_VERSION" == "" ]];
+then
+    tfswitch --latest
+else
+    tfswitch
+fi
 
-# Run command and control its stdout & stderr
-run_command(){
-    #echo  ">>>>" Run "$@"
-    eval "$@" >$tmp_stdout 2>$tmp_stderr
-    return $?
+# setup configuration file if token is passed
+if [[ "TF_TOKEN" != "" ]];
+then
+    
+    cat <<EOT > ~/.terraformrc
+credentials "${TF_HOST}" {
+    token = "${TF_TOKEN}"
 }
-# Run command and check its execution state
-# If command's exit code not 0 - terminate processing and print err and out to the relevant standard stream
-run_and_check(){
-    if ! run_command  $@; then
-      #echo ">>>>" Command [$*] failed
-      >&2 cat $tmp_stderr
-      cat $tmp_stdout
-      exit 1
-    #else
-      #cat $tmp_stdout
-      #echo ">>>>" Command [$*] completed
-    fi
-}
-run_and_check terraform init
-run_command terraform fmt -diff
-run_and_check terraform validate -no-color
-run_and_check terraform plan -input=false -no-color -out=/tmp/tf.out
-cat $tmp_stdout
-exit 0
+EOT
+    echo "Created .terraformrc file."
+fi
+
+# format check
+terraform fmt -check -recursive
+if [[ $? == 0 ]];
+then
+    FORMAT_CHECK="✅"
+else
+    FORMAT_CHECK="❌"
+fi
+
+# initialize terraform
+terraform init
+if [[ $? == 0 ]];
+then
+    INIT_CHECK="✅"
+else
+    INIT_CHECK="❌"
+fi
