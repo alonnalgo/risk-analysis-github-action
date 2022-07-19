@@ -1,8 +1,6 @@
 name: AlgoSec
 on:
-  pull_request:
-    branches:
-      - 'main'
+  workflow_call:
 env:
   S3_DEST: devsecops-dev/github-codeanalysis
   API_URL: "https://31p8mo93gl.execute-api.us-east-1.amazonaws.com/dev/response"
