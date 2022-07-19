@@ -28,6 +28,14 @@ inputs:
     default: "."
     required: false
     description: "For applies, needed to update the releases after tagging"
+  github_sha:
+    default: "."
+    required: false
+    description: "For applies, needed to update the releases after tagging"
+  github_base_ref:
+    default: "."
+    required: false
+    description: "For applies, needed to update the releases after tagging"
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -38,3 +46,5 @@ runs:
     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
     AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
     GITHUB_TOKEN: ${{ inputs.github_token }}
+    GITHUB_SHA: ${{ inputs.github_sha }}
+    GITHUB_BASE_REF: ${{ inputs.github_base_ref }}
