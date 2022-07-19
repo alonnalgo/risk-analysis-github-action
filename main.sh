@@ -3,10 +3,10 @@
 
 ################## Get Changed files ###############
 # Pull Request
-git fetch origin "${{ github.base_ref }}" --depth=1
+git fetch origin "$GITHUB_BASE_REF" --depth=1
 # Get the list of all changed resources
-diff_result=$(git diff --name-only "origin/${{ github.base_ref }}" ${{ github.sha }} )
-echo "Diff between origin/${{ github.base_ref }} and ${{ github.sha }}"
+diff_result=$(git diff --name-only "origin/$GITHUB_BASE_REF" $GITHUB_SHA )
+echo "Diff between origin/$GITHUB_BASE_REF and $GITHUB_SHA"
 # Extract terraform's files
 terraform_files=$(echo $diff_result | tr -s '[[:space:]]' '\n' | grep -o '.*\.tf$')
 echo "Changed Terraform's files: $terraform_files"
